@@ -1,0 +1,15 @@
+{% for reg in regs %}
+/// {{reg.regName}}_val
+const {{reg.regName}}_val = packed struct {
+
+    {%- for row in reg.tableInfo.rows %} 
+    /// [{{row.bits}}]
+    {{row.name}}: u{{row.bith-row.bitl+1}},
+    {%- endfor%}
+
+};
+
+/// {{reg.regName}}
+pub const {{reg.regName}} = helper.Register({{reg.regName}}_val).init(0x{{mhex(reg.regAddressInfo.base)}} + 0x{{mhex(reg.regAddressInfo.offset)}});
+
+{% endfor %}
